@@ -27,37 +27,66 @@ func newStudent(name string, age int, percentage float32, isPass bool, admission
 	return &newStudent
 }
 
+// type Order struct {
+// 	productName string
+// 	price       float32
+// 	status      string
+// 	delivered   bool
+// }
+
+// func (o *Order) changeStatus(status string) {
+// 	o.status = status
+// }
+
+// func changeDelivery(o *Order, delivered bool) {
+// 	o.delivered = delivered
+// }
+
+// Learning struct embedding
+// Basically passing a struct into another struct
+
+type customerInfo struct {
+	name    string
+	pincode int
+}
+
 type Order struct {
-	productName string
-	price       float32
-	status      string
-	delivered   bool
-}
-
-func (o *Order) changeStatus(status string) {
-	o.status = status
-}
-
-func changeDelivery(o *Order, delivered bool) {
-	o.delivered = delivered
+	product string
+	price   float32
+	cutomer customerInfo
 }
 
 func main() {
-	order1 := Order{
-		productName: "Asus Tuf A15",
-		price:       84000,
-		status:      "PENDING",
-		delivered:   false,
+	// order1 := Order{
+	// 	productName: "Asus Tuf A15",
+	// 	price:       84000,
+	// 	status:      "PENDING",
+	// 	delivered:   false,
+	// }
+
+	// fmt.Println(order1)
+	// order1.changeStatus("PROCESSING")
+	// fmt.Println(order1)
+
+	// changeDelivery(&order1, true)
+	// fmt.Println(order1)
+
+	// student1 := newStudent("sandy", 24, 80.80, true, time.Now())
+
+	// fmt.Println(student1.name)
+
+	customer1 := customerInfo{
+		name:    "sandeep",
+		pincode: 41501,
 	}
 
-	fmt.Println(order1)
-	order1.changeStatus("PROCESSING")
-	fmt.Println(order1)
+	order := Order{
+		product: "Asus tuf a15",
+		price:   84000.00,
+		cutomer: customer1,
+	}
 
-	changeDelivery(&order1, true)
-	fmt.Println(order1)
-
-	student1 := newStudent("sandy", 24, 80.80, true, time.Now())
-
-	fmt.Println(student1.name)
+	fmt.Println(order)
+	fmt.Println("### Printing Customer name ###")
+	fmt.Println(order.cutomer.name)
 }
