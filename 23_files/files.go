@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func main() {
+func basicFileInfoFunc() {
 	file, err := os.Open("example.txt")
 
 	if err != nil {
@@ -23,7 +23,33 @@ func main() {
 	fmt.Println("File Mode: ", fileInfo.Mode())
 	fmt.Println("File IsDir: ", fileInfo.IsDir())
 	fmt.Println("File Modified time: ", fileInfo.ModTime())
-	// fmt.Println("File Modified time: ", fileInfo.ModTime().Add(time.Hour))
-	// fmt.Println("File Modified time: ", fileInfo.Sys())
+}
+
+func readingFileUsingBuffer() {
+	file, err := os.Open("example.txt")
+
+	if err != nil {
+		panic(err)
+	}
+
+	// buff := make([]byte, 25) Bad Approach,
+	// Note: If extra space was assigned that remain empty do not print, but memory still consumes
+
+	fileInfo, err := file.Stat()
+
+	buff := make([]byte, fileInfo.Size())
+	ln, err := file.Read(buff)
+
+	for i := 0; i < ln; i++ {
+		fmt.Println("Buffer data: ", string(buff[i]))
+	}
+
+	fmt.Println(ln)
+	defer file.Close()
+}
+
+func main() {
+
+	readingFileUsingBuffer()
 
 }
