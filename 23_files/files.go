@@ -48,8 +48,82 @@ func readingFileUsingBuffer() {
 	defer file.Close()
 }
 
+func readingFolder() {
+	file, err := os.Open("../")
+
+	if err != nil {
+		panic(err)
+	}
+
+	folderInfo, err := file.ReadDir(-1)
+
+	if err != nil {
+		panic(err)
+	}
+
+	for _, fi := range folderInfo {
+		fmt.Println(fi.Name())
+	}
+}
+
+func constructFileFolderView() {
+	file, err := os.Open("../")
+
+	if err != nil {
+		panic(err)
+	}
+
+	folderInfo, err := file.ReadDir(-1)
+
+	if err != nil {
+		panic(err)
+	}
+
+	for _, fi := range folderInfo {
+		fmt.Println("|--", fi.Name())
+		if fi.IsDir() && fi.Name() != ".git" {
+			dirPath := "../" + fi.Name()
+			constructView(dirPath, 4)
+		}
+	}
+
+	defer file.Close()
+}
+
+func constructView(path string, space int) {
+	folderInfo, err := os.Open(path)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fileInfo, err := folderInfo.ReadDir(-1)
+
+	if err != nil {
+		panic(err)
+	}
+
+	prefixSpace := ""
+
+	for i := 1; i <= space; i++ {
+		prefixSpace += " "
+	}
+
+	for _, fi := range fileInfo {
+		fmt.Println(prefixSpace+"|--", fi.Name())
+		if fi.IsDir() {
+			dirPath := path + "/" + fi.Name()
+			constructView(dirPath, space+4)
+		}
+
+	}
+
+	defer folderInfo.Close()
+}
+
 func main() {
 
-	readingFileUsingBuffer()
-
+	// readingFileUsingBuffer()
+	// readingFolder()
+	constructFileFolderView()
 }
