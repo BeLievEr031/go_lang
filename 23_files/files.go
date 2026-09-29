@@ -121,9 +121,88 @@ func constructView(path string, space int) {
 	defer folderInfo.Close()
 }
 
+func creatingFileWithWriteFN() {
+	file, err := os.Create("example2.txt")
+
+	if err != nil {
+		panic(err)
+	}
+
+	buff := []byte("hello go lang")
+
+	n, err := file.Write(buff)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(n)
+
+	defer file.Close()
+}
+
+func creatingFileWithWriteStringFN() {
+	file, err := os.Create("example3.txt")
+
+	if err != nil {
+		panic(err)
+	}
+
+	file.WriteString("I am learning")
+	file.WriteString(" go language.")
+
+	defer file.Close()
+}
+
+func readingAndDumpingToAnotherFile() {
+	// Open existing File data
+	file, err := os.Open("example.txt")
+
+	if err != nil {
+		panic(err)
+	}
+
+	fileInfo, err := file.Stat()
+
+	if err != nil {
+		panic(err)
+	}
+
+	readBuff := make([]byte, fileInfo.Size())
+
+	// Read existing File Data
+	n, err := file.Read(readBuff)
+	fmt.Println("File Size is: ", n)
+
+	if err != nil {
+		panic(err)
+	}
+
+	for i := range readBuff {
+		fmt.Println(string(readBuff[i]))
+	}
+
+	// Create new file
+	newFile, err := os.Create("new_file.txt")
+
+	if err != nil {
+		panic(err)
+	}
+
+	// Dump old file data
+	newFile.Write(readBuff)
+
+	defer func() {
+		file.Close()
+		newFile.Close()
+	}()
+}
+
 func main() {
 
 	// readingFileUsingBuffer()
 	// readingFolder()
-	constructFileFolderView()
+	// constructFileFolderView()
+	// creatingFileWithWriteFN()
+	// creatingFileWithWriteStringFN()
+	readingAndDumpingToAnotherFile()
 }
