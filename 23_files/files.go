@@ -204,5 +204,17 @@ func main() {
 	// constructFileFolderView()
 	// creatingFileWithWriteFN()
 	// creatingFileWithWriteStringFN()
-	readingAndDumpingToAnotherFile()
+	// readingAndDumpingToAnotherFile()
+
+	// Deleting Files
+
+	// err := os.Remove("example2.txt")
+	err := os.Remove("demo_1")
+	// We can only delete the Empty folder.
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("File deleted successfully.")
 }
